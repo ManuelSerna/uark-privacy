@@ -53,6 +53,12 @@ If you Anaconda version <4.4, activate the environment as follows:
 source activate parchoice
 ```
 
+## NOTE: Potential library/dependency conflicts
+The "wn" library has had, as of Dec 4, 2020, several updates on Nov 25, Nov 26, and Dec 1, 2020 that cause the below error.
+```
+ImportError: cannot import name 'WordNet' from 'wn' (/home/manuel/anaconda3/envs/parchoice/lib/python3.7/site-packages/wn/__init__.py)
+```
+In the env.yaml file the "wn" version is set to 0.2.0. In order to actually run this file, __INSTALL 0.023__.
 
 ## Running a test experiment
 
