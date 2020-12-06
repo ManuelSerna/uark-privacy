@@ -16,9 +16,10 @@ simplefilter("ignore", category=ConvergenceWarning)
 
 def main():
     arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument('--src', help='Source corpus for transforming', default='data/alice_test.txt')
-    arg_parser.add_argument('--src_train', help='Training corpus for src class', default='data/alice_train.txt')
-    arg_parser.add_argument('--tgt_train', help='Training corpus for tgt class', default='data/bob_train.txt')
+    # NOTE: Since script that executes parchoice is moved up one directory level, add parent directory (parchoice-master) to file names
+    arg_parser.add_argument('--src', help='Source corpus for transforming', default='parchoice-master/data/alice_test.txt')
+    arg_parser.add_argument('--src_train', help='Training corpus for src class', default='parchoice-master/data/alice_train.txt')
+    arg_parser.add_argument('--tgt_train', help='Training corpus for tgt class', default='parchoice-master/data/bob_train.txt')
     arg_parser.add_argument('--use_ppdb', action='store_true')
     arg_parser.add_argument('--use_wordnet', action='store_true')
     arg_parser.add_argument('--use_typos', action='store_true')

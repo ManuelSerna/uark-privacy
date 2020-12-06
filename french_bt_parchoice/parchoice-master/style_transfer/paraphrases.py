@@ -41,7 +41,8 @@ def ppdb_to_dict(ppdb_list, num_chars=3):
             ppdb_dict['pos'][phr[:num_chars]][phr][context].add(par)
     return ppdb_dict
 
-def load_ppdb(path='ppdb/ppdb_equivalent.txt', num_chars=3):
+# NOTE: added parent directory name parchoice-master as I moved the script up a directory level
+def load_ppdb(path='parchoice-master/ppdb/ppdb_equivalent.txt', num_chars=3):
     with open(path, 'r') as f:
         ppdb = f.readlines()
     ppdb = [p.split('|') for p in ppdb]
@@ -49,8 +50,9 @@ def load_ppdb(path='ppdb/ppdb_equivalent.txt', num_chars=3):
     ppdb = ppdb_to_dict(ppdb, num_chars=num_chars)
     return ppdb
 
+# NOTE: added parent directory name parchoice-master as I moved the script up a directory level
 # Inflection dict (for inflecting WordNet lemmas)
-def load_inflections(infl_path = 'inflections/inflections.pkl'):
+def load_inflections(infl_path = 'parchoice-master/inflections/inflections.pkl'):
     with open(infl_path, 'rb') as f:
         infl = pickle.load(f)
     return infl
