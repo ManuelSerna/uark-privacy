@@ -13,7 +13,6 @@
 #   1. Feed input French doc to machine translator (FR -> EN)
 #   2. Feed EN doc to Parhoice
 #   3. Feed transformed file from Parchoice to machine translator (EN -> FR)
-#   4. TODO: Compute METEOR score between original <in_doc> and final French result file
 #*********************************
 
 echo
@@ -40,6 +39,7 @@ fi
 echo "_______________________________________________"
 echo " Translating French document to English."
 fr2en_doc="fr2en.txt" # will contain translated (now English) text
+touch $fr2en_doc
 python3 translators/translate.py $in_doc $fr2en_doc 'fr' 'en'
 echo "_______________________________________________"
 echo
@@ -57,13 +57,29 @@ echo
 echo " Activating parchoice Anaconda environment."
 conda activate parchoice
 python parchoice-master/style_transfer/main.py --src $fr2en_doc --use_ppdb --use_wordnet --use_typos --spell_check
-#python parchoice-master/style_transfer/main.py --src $fr2en_doc --use_ppdb --use_wordnet --use_typos --spell_check # use classifier
+
+# use classifier and remember to use training sets (source and target style corpora), which may be left for future experiments.
+#python parchoice-master/style_transfer/main.py --src $fr2en_doc --use_ppdb --use_wordnet --use_typos --spell_check 
+
 conda deactivate
 echo " Deactivated parchoice Anaconda environment."
 echo " Retrieving obsfucated document..."
-cp parchoice-master/results/alice_test_transf_ppdb_wn_typos.txt ./obsfucated.txt
-echo " Retrieved document."
-$obfuscated="obsfucated.txt" # name of English obsfucated document
+obfuscated="obfuscated.txt" # name of English obsfucated document
+#cp "parchoice-master/results/alice_test_transf_ppdb_wn_typos.txt" "./$obfuscated"
+cp "results/alice_test_transf_ppdb_wn_typos.txt" "./$obfuscated"
+
+if [[ -f "$obfuscated" ]]
+then
+    echo " Retrieved document."
+else
+    echo " ! ERROR: document not retrieved."
+    exit
+fi
+
+# Compute meteor score for English transformation
+echo
+echo "Calculating METEOR score of English documents post and pre-obfuscation."
+python score/eng_score.py $fr2en_doc $obfuscated
 echo "_______________________________________________"
 echo
 
@@ -74,7 +90,7 @@ echo
 #=================================
 echo "_______________________________________________"
 echo " Translating English document to French."
-en2fr_doc="result.txt" # finally, store final obsfucated French text
+en2fr_doc="result_$in_doc" # finally, store final obsfucated French text
 #python3 translators/translate.py $in_doc $fr2en_doc 'fr' 'en'
 #  $ python3 translate.py <in_doc> <out_doc> <source_lang> <target_lang>
 python3 translators/translate.py $obfuscated $en2fr_doc 'en' 'fr'
@@ -84,13 +100,6 @@ echo "_______________________________________________"
 echo
 
 
-
-#=================================
-# 4. Perform automated evaluation of transformed result document (French)
-#=================================
-echo "TODO: Perform automated evaluation of final document."
-#TODO
-echo
 
 # Remove intermediate files
 rm $fr2en_doc

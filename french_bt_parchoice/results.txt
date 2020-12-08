@@ -1,0 +1,5 @@
+1. rene descartes
+- meteor score (eng): 14.2973/16.0 = 0.8936
+
+2. voltaire
+- meteor score (eng): 17.8242/21.0 = 0.8488
