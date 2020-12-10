@@ -3,3 +3,6 @@
 
 2. voltaire
 - meteor score (eng): 17.8242/21.0 = 0.8488
+
+3. sartre
+- meteor score (eng): 7.7927/13.0 = 0.5994
